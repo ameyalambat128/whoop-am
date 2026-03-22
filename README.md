@@ -1,4 +1,4 @@
-# whoop-am
+# Whoop AM
 
 A personal iMessage bot that texts you your Whoop stats every morning and lets you chat about your health data.
 
@@ -34,15 +34,15 @@ cp .env.example .env
 
 Fill in your `.env`:
 
-| Variable | Description |
-|---|---|
-| `WHOOP_CLIENT_ID` | From [developer.whoop.com](https://developer.whoop.com/) |
-| `WHOOP_CLIENT_SECRET` | From your Whoop app registration |
-| `WHOOP_REDIRECT_URI` | Set to `http://localhost:3000/callback` |
-| `ANTHROPIC_API_KEY` | Your Anthropic API key |
-| `IMESSAGE_RECIPIENT` | Phone number to send messages to |
-| `MORNING_MESSAGE_CRON` | Cron schedule (default: `0 7 * * *`) |
-| `AI_MODEL` | Claude model ID (default: `claude-haiku-4-5-20251001`) |
+| Variable               | Description                                              |
+| ---------------------- | -------------------------------------------------------- |
+| `WHOOP_CLIENT_ID`      | From [developer.whoop.com](https://developer.whoop.com/) |
+| `WHOOP_CLIENT_SECRET`  | From your Whoop app registration                         |
+| `WHOOP_REDIRECT_URI`   | Set to `http://localhost:3000/callback`                  |
+| `ANTHROPIC_API_KEY`    | Your Anthropic API key                                   |
+| `IMESSAGE_RECIPIENT`   | Phone number to send messages to                         |
+| `MORNING_MESSAGE_CRON` | Cron schedule (default: `0 7 * * *`)                     |
+| `AI_MODEL`             | Claude model ID (default: `claude-haiku-4-5-20251001`)   |
 
 When registering your Whoop app, set the redirect URI to `http://localhost:3000/callback`.
 
@@ -62,7 +62,7 @@ bun run start
 
 ## Usage tips
 
-**Use a different phone number.** The bot sends and receives on your Mac's iMessage account. If you set `IMESSAGE_RECIPIENT` to your own number, you'll be texting yourself — which works, but can cause echo issues. It's better to text the bot *from a different number* (a friend's phone, a secondary number, etc.) and set `IMESSAGE_RECIPIENT` to that number.
+**Use a different phone number.** The bot sends and receives on your Mac's iMessage account. If you set `IMESSAGE_RECIPIENT` to your own number, you'll be texting yourself — which works, but can cause echo issues. It's better to text the bot _from a different number_ (a friend's phone, a secondary number, etc.) and set `IMESSAGE_RECIPIENT` to that number.
 
 **Missed morning messages.** If your Mac was asleep at the scheduled time, the bot sends a belated morning message when it starts up.
 

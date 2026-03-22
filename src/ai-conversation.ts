@@ -18,7 +18,7 @@ Tone rules:
 - Never offer unsolicited help or ask if they want more detail. Use your judgment.
 - At the end of a conversation, it's fine to say nothing rather than force a closing line.`;
 
-function formatDailySummaryForContext(summary: DailySummary): string {
+export function formatDailySummaryForContext(summary: DailySummary): string {
   const parts: string[] = [`Date: ${summary.date}`];
 
   if (summary.recovery) {
@@ -68,7 +68,7 @@ function formatDailySummaryForContext(summary: DailySummary): string {
   return parts.join("\n");
 }
 
-function formatTrendDataForContext(recentDays: DailySummary[]): string {
+export function formatTrendDataForContext(recentDays: DailySummary[]): string {
   if (recentDays.length === 0) return "No trend data available.";
 
   const trendLines = recentDays.map((day) => {

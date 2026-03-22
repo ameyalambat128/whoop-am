@@ -75,7 +75,7 @@ interface WhoopWorkoutRecord {
   };
 }
 
-const SPORT_ID_TO_NAME = new Map<number, string>([
+export const SPORT_ID_TO_NAME = new Map<number, string>([
   [-1, "Activity"],
   [0, "Running"],
   [1, "Cycling"],
@@ -162,11 +162,11 @@ async function whoopApiRequest<T>(
   return response.json() as Promise<T>;
 }
 
-function millisecondsToHours(milliseconds: number): number {
+export function millisecondsToHours(milliseconds: number): number {
   return Math.round((milliseconds / (1000 * 60 * 60)) * 10) / 10;
 }
 
-function millisecondsToMinutes(milliseconds: number): number {
+export function millisecondsToMinutes(milliseconds: number): number {
   return Math.round(milliseconds / (1000 * 60));
 }
 

@@ -7,6 +7,7 @@ import type { ConversationMessage } from "./types.ts";
 const MAX_CONVERSATION_HISTORY_LENGTH = 10;
 const conversationHistory: ConversationMessage[] = [];
 const processedMessageIds = new Set<string>();
+const recentlySentMessageTexts = new Set<string>();
 
 function trimProcessedMessageIds(): void {
   if (processedMessageIds.size > 500) {
@@ -18,6 +19,11 @@ function trimProcessedMessageIds(): void {
   }
 }
 
+function trackSentMessage(text: string): void {
+  recentlySentMessageTexts.add(text);
+  setTimeout(() => recentlySentMessageTexts.delete(text), 30_000);
+}
+
 export async function startMessageWatcher(
   imessageSdk: IMessageSDK
 ): Promise<void> {
@@ -27,20 +33,30 @@ export async function startMessageWatcher(
     return;
   }
 
+  const watcherStartedAt = new Date();
+  let currentlyProcessing = false;
+
   await imessageSdk.startWatching({
     onDirectMessage: async (message) => {
-      if (message.isFromMe) return;
       if (processedMessageIds.has(message.id)) return;
       processedMessageIds.add(message.id);
       trimProcessedMessageIds();
+
+      if (message.date < watcherStartedAt) return;
+
+      if (!message.text) return;
+
+      if (recentlySentMessageTexts.has(message.text)) return;
 
       const senderMatchesRecipient =
         message.sender === recipientPhoneNumber ||
         message.sender.replace(/[\s\-\(\)]/g, "") ===
           recipientPhoneNumber.replace(/[\s\-\(\)]/g, "");
 
-      if (!senderMatchesRecipient) return;
-      if (!message.text) return;
+      if (!senderMatchesRecipient && !message.isFromMe) return;
+
+      if (currentlyProcessing) return;
+      currentlyProcessing = true;
 
       console.log(`Received: "${message.text}"`);
 
@@ -65,10 +81,13 @@ export async function startMessageWatcher(
           conversationHistory.shift();
         }
 
+        trackSentMessage(responseText);
         await imessageSdk.send(recipientPhoneNumber, responseText);
         console.log(`Replied: "${responseText}"`);
       } catch (error) {
         console.error("Failed to handle message:", error);
+      } finally {
+        currentlyProcessing = false;
       }
     },
     onError: (error) => {

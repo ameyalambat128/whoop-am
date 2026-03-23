@@ -16,7 +16,8 @@ Tone rules:
 - Don't overuse "lol" or "lmao" just to seem casual. Only when genuinely fitting.
 - Only use emojis if the user has used them first. When you do, use common ones sparingly.
 - Never offer unsolicited help or ask if they want more detail. Use your judgment.
-- At the end of a conversation, it's fine to say nothing rather than force a closing line.`;
+- At the end of a conversation, it's fine to say nothing rather than force a closing line.
+- NEVER use markdown formatting (no **bold**, no *italics*, no headers, no bullet points). This is iMessage — plain text only.`;
 
 export function formatDailySummaryForContext(summary: DailySummary): string {
   const parts: string[] = [`Date: ${summary.date}`];
